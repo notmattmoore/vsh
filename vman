@@ -1,3 +1,4 @@
 #!/bin/sh
+# Lookup a manpage and view in vim.
 
 vim -c "Man $@|only"

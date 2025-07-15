@@ -1,3 +1,4 @@
 #!/bin/sh
+# Pipe output from a command to a vim instance for viewing.
 
 vim -c 'set number' -
