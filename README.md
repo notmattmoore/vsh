@@ -1,6 +1,9 @@
 # Vim CLI tools
 
-A collection of vim CLI tools: `vess`, `vman`, and `vsh`.
+A collection of vim CLI tools: `vess`, `vman`, and `vsh`. See also `vipe` from
+[`moreutils`](https://joeyh.name/code/moreutils/), which reads from standard
+input, puts it in a vim instance, and then echos the result to standard output
+when the vim instance is closed.
 
 ### `vess` --- less + vim
 Pipe output from a command to a vim instance for viewing. Example:
