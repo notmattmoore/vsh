@@ -3,12 +3,12 @@
 # Read from standard input, put it in a vim instance, and then execute the
 # results upon exit. Log all things run this way.
 # Usage: vsh [--no-log] [--last|-l|--history|-h|--execute|-e|<file>]
-# Version: 2025-09-15
+# Version: 2026-07-01
 
 vim_cmd='vim -c "set noswapfile" -c "set noundofile" -c "set ft=zsh"'
 script_header='read -q "?Run script? [y/N] " || exit'
-logfile_base="$HOME/.log/vsh_"
-logfile="$logfile_base$(date +%FT%T).log"
+logfile_base="$HOME/.log/vsh/"
+log_keep=100
 
 usage() { # {{{
 cat <<EOF
@@ -63,9 +63,11 @@ trap 'echo "\nvsh: caught CTRL-C" >> "$script_name"' 2
 eval "$script_src_cmd" >> "$script_name"
 trap - 2    # unset the trap
 
-# Edit the script and log it (if needed).
+# Edit the script and log it (if needed). Also clean up the log directory.
 eval "$vim_cmd" "$script_name" < /dev/tty
-[ $do_log ] && (cat "$script_name" >> "$logfile")
+[ $do_log ] && (cat "$script_name" >> "$logfile_base$(date +%FT%T).log")
+find "$logfile_base"* -type f | sort | head -n -$log_keep | xargs -r rm
+
 
 # Execute the script (trap ctrl-c from inside zsh).
 trap 'echo "\nvsh: caught CTRL-C"' 2
